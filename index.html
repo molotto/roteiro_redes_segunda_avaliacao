@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Simulado interativo da segunda avaliação de Redes de Computadores." />
     <title>Simulado de Redes — Segunda Avaliação</title>
-    <link rel="stylesheet" href="styles.css?v=20261007-3" />
+    <link rel="stylesheet" href="styles-20261008.css" />
   </head>
   <body>
     <header class="site-header">
@@ -13,7 +13,7 @@
         <span class="brand-mark">RC</span>
         <span>Redes de Computadores</span>
       </a>
-      <span class="header-note">Segunda avaliação · 30 questões por tentativa</span>
+      <span class="header-note">Segunda avaliação · até 30 questões por tentativa</span>
     </header>
 
     <main id="app">
@@ -22,22 +22,52 @@
           <p class="eyebrow">Simulado completo</p>
           <h1>Você sabe por onde o pacote vai?</h1>
           <p class="intro">
-            Revise IPv4, subnetting, roteamento, ARP, DHCP, VLAN e IPv6 com 30 questões sorteadas de um banco de <span id="bank-size">406</span>.
+            Revise IPv4, subnetting, roteamento, ARP, DHCP, VLAN e IPv6 com até 30 questões sorteadas de um banco de <span id="bank-size">471</span>.
           </p>
-          <div class="start-actions">
-            <button class="button button-primary" id="start-button" type="button">Começar simulado</button>
-            <span>Leva cerca de 15 minutos</span>
-          </div>
         </div>
 
         <div class="start-visual" aria-hidden="true">
           <span class="visual-number">30</span>
           <div class="visual-lines">
-            <span>QUESTÕES</span>
-            <span>11 GRUPOS</span>
+            <span>ATÉ 30 QUESTÕES</span>
+            <span id="selected-topic-count">18 TEMAS</span>
             <span>1 RESULTADO</span>
           </div>
         </div>
+
+        <section class="topic-selector" aria-labelledby="topic-selector-title">
+          <div class="selector-heading">
+            <div>
+              <p class="eyebrow">Monte sua revisão</p>
+              <h2 id="topic-selector-title">Quais conteúdos você quer estudar?</h2>
+            </div>
+            <div class="selector-tools">
+              <button class="text-button" id="select-all-button" type="button">Selecionar todos</button>
+              <button class="text-button" id="clear-selection-button" type="button">Limpar seleção</button>
+            </div>
+          </div>
+
+          <label class="official-selector">
+            <input id="official-selection" type="checkbox" checked />
+            <span class="selector-check" aria-hidden="true"></span>
+            <span>
+              <strong>Todos os conteúdos da prova</strong>
+              <small>Usa o blueprint oficial balanceado; não inclui os extras do Moodle.</small>
+            </span>
+          </label>
+
+          <div class="topic-grid" id="topic-grid">
+            <p class="asset-loading-message">Carregando os conteúdos…</p>
+          </div>
+
+          <div class="selector-footer">
+            <p id="available-question-count" aria-live="polite">30 questões serão sorteadas com o blueprint oficial.</p>
+            <div class="start-actions">
+              <button class="button button-primary" id="start-button" type="button">Começar simulado</button>
+              <span>Leva cerca de 15 minutos</span>
+            </div>
+          </div>
+        </section>
 
         <div class="how-it-works">
           <p><strong>01</strong> Escolha uma alternativa</p>
@@ -97,6 +127,14 @@
           <div><strong id="score-percent">0%</strong><span>Aproveitamento</span></div>
         </div>
 
+        <section class="topic-results" aria-labelledby="topic-results-title">
+          <div>
+            <p class="eyebrow">Desempenho por conteúdo</p>
+            <h2 id="topic-results-title">Onde revisar</h2>
+          </div>
+          <div class="topic-result-list" id="topic-result-list"></div>
+        </section>
+
         <div class="result-actions">
           <button class="button button-primary" id="retry-wrong-button" type="button">Refazer questões erradas</button>
           <button class="button button-secondary" id="restart-button" type="button">Recomeçar simulado</button>
@@ -124,6 +162,9 @@
       <span>UEPG · Redes de Computadores</span>
     </footer>
 
-    <script src="app.js?v=20261007-3"></script>
+    <noscript>
+      <p class="noscript-message">Este simulado precisa de JavaScript habilitado para funcionar.</p>
+    </noscript>
+    <script src="app-20261008.js"></script>
   </body>
 </html>

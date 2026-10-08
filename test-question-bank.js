@@ -1,8 +1,13 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 const {
+  OFFICIAL_STUDY_TOPIC_IDS,
   QUIZ_BLUEPRINT,
+  STUDY_TOPICS,
+  buildBalancedQuiz,
+  buildCustomQuiz,
   questions,
   calculateIpv4Fragments,
   countBy,
@@ -10,8 +15,22 @@ const {
   ipToInt,
   networkInfo,
   prefixToMask,
-  validateQuestionBank
-} = require("./app.js");
+  validateCustomQuiz,
+  validateQuestionBank,
+  validateQuiz
+} = require("./app-20261008.js");
+
+
+assert.equal(
+  fs.readFileSync("app.js", "utf8"),
+  fs.readFileSync("app-20261008.js", "utf8"),
+  "O JavaScript versionado do navegador deve corresponder ao arquivo-fonte."
+);
+assert.equal(
+  fs.readFileSync("styles.css", "utf8"),
+  fs.readFileSync("styles-20261008.css", "utf8"),
+  "O CSS versionado do navegador deve corresponder ao arquivo-fonte."
+);
 
 
 const report = validateQuestionBank({ simulationRuns: 1000, log: false });
@@ -19,6 +38,12 @@ const report = validateQuestionBank({ simulationRuns: 1000, log: false });
 assert.equal(report.valid, true, report.errors.join("\n"));
 assert.ok(questions.length >= 300, "O banco deve possuir ao menos 300 questões.");
 assert.equal(QUIZ_BLUEPRINT.reduce((sum, item) => sum + item.count, 0), 30);
+assert.ok(questions.filter(question => question.source === "moodle_ipv6_parte_1").length >= 1);
+assert.ok(questions.filter(question => question.source === "moodle_ipv6_parte_2").length >= 1);
+assert.ok(
+  questions.filter(question => question.source.startsWith("moodle_ipv6_parte_")).length >= 50,
+  "O banco deve ter ao menos 50 questões baseadas nos questionários Moodle de IPv6."
+);
 
 const revised = questions.filter(question => question.source === "revisao_2026");
 const revisedBySubtopic = countBy(revised, "subtopic");
@@ -53,5 +78,33 @@ assert.deepEqual(fragmentation.fragments, [
   { dataLength: 1020, totalLength: 1040, offset: 370, mf: 0 }
 ]);
 
-console.log("1000 simulados validados com sucesso.");
-console.log(`Banco final: ${questions.length} questões (${revised.length} adicionadas nesta revisão).`);
+
+function testCustomSelection(name, topicIds, runs = 100) {
+  for (let run = 0; run < runs; run += 1) {
+    const order = buildCustomQuiz(topicIds);
+    const errors = validateCustomQuiz(order, topicIds);
+    assert.deepEqual(errors, [], `${name}, simulado ${run + 1}: ${errors.join("; ")}`);
+  }
+}
+
+
+testCustomSelection("somente NDP", ["ipv6_ndp"]);
+testCustomSelection("somente Subnetting", ["subnetting"]);
+testCustomSelection(
+  "IPv6 completo",
+  STUDY_TOPICS.filter(topic => topic.id.startsWith("ipv6_")).map(topic => topic.id)
+);
+testCustomSelection("NDP + SLAAC + DHCPv6", ["ipv6_ndp", "ipv6_slaac_dhcp"]);
+
+let previousOfficial = [];
+for (let run = 0; run < 100; run += 1) {
+  const order = buildBalancedQuiz(previousOfficial, 3);
+  assert.deepEqual(validateQuiz(order), [], `oficial, simulado ${run + 1}`);
+  assert.ok(order.every(index => OFFICIAL_STUDY_TOPIC_IDS.includes(questions[index].studyTopic)));
+  previousOfficial = order;
+}
+
+console.log("1500 simulados validados com sucesso (1000 do banco + 500 cenários de filtro). ");
+console.log(`Banco final: ${questions.length} questões (${revised.length} adicionadas na revisão anterior).`);
+console.log("Por tema selecionável:", countBy(questions, "studyTopic"));
+console.log("Por fonte:", countBy(questions, "source"));
