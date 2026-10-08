@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Simulado interativo da segunda avaliação de Redes de Computadores." />
+    <title>Simulado de Redes — Segunda Avaliação</title>
+    <link rel="stylesheet" href="styles.css?v=20261007-3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Reiniciar simulado">
+        <span class="brand-mark">RC</span>
+        <span>Redes de Computadores</span>
+      </a>
+      <span class="header-note">Segunda avaliação · 30 questões por tentativa</span>
+    </header>
+
+    <main id="app">
+      <section class="start-screen" id="start-screen">
+        <div class="start-copy">
+          <p class="eyebrow">Simulado completo</p>
+          <h1>Você sabe por onde o pacote vai?</h1>
+          <p class="intro">
+            Revise IPv4, subnetting, roteamento, ARP, DHCP, VLAN e IPv6 com 30 questões sorteadas de um banco de <span id="bank-size">406</span>.
+          </p>
+          <div class="start-actions">
+            <button class="button button-primary" id="start-button" type="button">Começar simulado</button>
+            <span>Leva cerca de 15 minutos</span>
+          </div>
+        </div>
+
+        <div class="start-visual" aria-hidden="true">
+          <span class="visual-number">30</span>
+          <div class="visual-lines">
+            <span>QUESTÕES</span>
+            <span>11 GRUPOS</span>
+            <span>1 RESULTADO</span>
+          </div>
+        </div>
+
+        <div class="how-it-works">
+          <p><strong>01</strong> Escolha uma alternativa</p>
+          <p><strong>02</strong> Confirme para ver a explicação</p>
+          <p><strong>03</strong> Revise os erros no resultado</p>
+        </div>
+      </section>
+
+      <section class="quiz-screen is-hidden" id="quiz-screen" aria-live="polite">
+        <aside class="question-map" aria-label="Mapa de questões">
+          <div class="map-heading">
+            <span>Progresso</span>
+            <strong id="progress-percent">0%</strong>
+          </div>
+          <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+          <div class="question-grid" id="question-grid"></div>
+          <div class="map-legend">
+            <span><i class="legend-current"></i> Atual</span>
+            <span><i class="legend-correct"></i> Acerto</span>
+            <span><i class="legend-wrong"></i> Erro</span>
+          </div>
+        </aside>
+
+        <article class="question-card">
+          <div class="question-meta">
+            <span id="question-topic">Tema</span>
+            <span id="question-count">Questão 1 de 30</span>
+          </div>
+          <h2 id="question-text"></h2>
+          <form id="answer-form">
+            <fieldset id="options-list"></fieldset>
+            <div class="feedback is-hidden" id="feedback" role="status"></div>
+            <div class="question-actions">
+              <button class="button button-primary" id="confirm-button" type="submit" disabled>Confirmar resposta</button>
+              <button class="button button-primary is-hidden" id="next-button" type="button">Próxima questão</button>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <section class="results-screen is-hidden" id="results-screen">
+        <div class="result-hero">
+          <div>
+            <p class="eyebrow">Resultado final</p>
+            <h1 id="result-title">Simulado concluído</h1>
+            <p id="result-message"></p>
+          </div>
+          <div class="score-block">
+            <span id="score-number">0</span>
+            <small>de 30</small>
+          </div>
+        </div>
+
+        <div class="result-summary">
+          <div><strong id="correct-total">0</strong><span>Acertos</span></div>
+          <div><strong id="wrong-total">0</strong><span>Erros</span></div>
+          <div><strong id="score-percent">0%</strong><span>Aproveitamento</span></div>
+        </div>
+
+        <div class="result-actions">
+          <button class="button button-primary" id="retry-wrong-button" type="button">Refazer questões erradas</button>
+          <button class="button button-secondary" id="restart-button" type="button">Recomeçar simulado</button>
+        </div>
+
+        <section class="review-section">
+          <div class="review-heading">
+            <div>
+              <p class="eyebrow">Revisão</p>
+              <h2>Questão por questão</h2>
+            </div>
+            <div class="review-filters" role="group" aria-label="Filtrar revisão">
+              <button class="filter-button is-active" data-filter="all" type="button">Todas</button>
+              <button class="filter-button" data-filter="wrong" type="button">Só erros</button>
+              <button class="filter-button" data-filter="correct" type="button">Só acertos</button>
+            </div>
+          </div>
+          <div class="review-list" id="review-list"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <span>Conteúdo baseado na Apostila Mestre — Segunda Avaliação</span>
+      <span>UEPG · Redes de Computadores</span>
+    </footer>
+
+    <script src="app.js?v=20261007-3"></script>
+  </body>
+</html>
